@@ -47,3 +47,26 @@ login creds username and password admin -> change once logged in
 Logged in -> generate token(my account-> security-> token) -> copy
 
 In jenkins-> system -> sonarqube server -> provide name, server URL and add cred secret text with sonarqube token
+```
+    stage('sonar scan'){
+                environment{
+                    def scannerHome = tool 'sonar-8.x' # tool which we installed under tools in manage jenkins
+                }
+                steps{
+                    script{
+                        withSonarQubeEnv('sonar-server'){ # sonar-server - defined under system, with sonar token and sonar resource URL
+                            sh '${scannerHome}/bin/sonar-scanner'
+                        }
+                    }
+                }
+            }
+```
+sonar-poject.properties file - contains few details like project name, exclusions etc
+
+In sonarqube, we can create a quality gate and make it default for testing. Though jenkins pipeline run successfully but in sonar project it failed
+
+To make pipeline check quality gates in itself and fail if any issues, add stage quality gate
+sonar qube to let know jenkins about quality gate - we need create a webhook
+ administration -> configuration -> webhook -> create new
+  name -> any name
+  URL ->  http://<jenkins-url>/sonarqube-webhook/
