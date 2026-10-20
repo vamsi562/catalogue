@@ -70,3 +70,15 @@ sonar qube to let know jenkins about quality gate - we need create a webhook
  administration -> configuration -> webhook -> create new
   name -> any name
   URL ->  http://<jenkins-url>/sonarqube-webhook/
+
+  add below step in jenkins file
+    ```
+        stage('Quality Gate') {
+            steps {
+                // Pause pipeline and wait for SonarQube webhook response
+                timeout(time: 10, unit: 'MINUTES') {
+                    waitForQualityGate abortPipeline: true
+                }
+            }
+        }
+    ```
