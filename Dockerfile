@@ -7,8 +7,8 @@ RUN npm install
 
 FROM node:20-alpine3.22
 WORKDIR /opt/server
-RUN apk update && \
-    apk upgrade --no-cache
+# RUN apk update && \
+#     apk upgrade --no-cache
 EXPOSE 8080
 RUN addgroup -S roboshop && adduser -S roboshop -G roboshop
 COPY --from=builder --chown=roboshop:roboshop /opt/server/ /opt/server/

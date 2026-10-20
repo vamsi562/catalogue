@@ -107,6 +107,10 @@ installtion
     sudo yum -y update
     sudo yum -y install trivy
 ```
+or
+```
+    curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sudo sh -s -- -b /usr/local/bin v0.76.0
+```
 
 command 
 ```
@@ -115,7 +119,6 @@ command
     --severity HIGH,CRITICAL,MEDIUM \
     --pkg-types os \
     --exit-code 1 \
-    --skip-db-update \
     --no-progress \
     --format table \
     055610219795.dkr.ecr.us-east-1.amazonaws.com/roboshop/catalogue:1.0.0
