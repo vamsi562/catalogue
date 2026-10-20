@@ -29,3 +29,21 @@
 install aws steps plugin, go to creds -> select aws credentials -> create
 we will bind aws creds in jenkins pipeline using below
 ``` withAWS(credentials: 'aws-auth', region: 'us-east-1') ```
+
+4.SonarQube:
+- static source code analysis and static application security testing
+installation - provision ec2 instance, install docker and run sonar qube container(***as sonar qube is costly***). Create route53 record for sonar.<domain_name> with public ip of sonar server
+use instance type that have min of 2 GB RAM
+**note - sonar server sg must allow inbound 9000 traffic from jenkins sg**
+    ```
+        sudo growpart /dev/nvme0n1 4
+        sudo lvextend -L +30G /dev/mapper/RootVG-varVol
+        sudo xfs_growfs /var
+        docker run -d --name sonarqube-practice -p 9000:9000 sonarqube:community
+    ```
+access snarqube server -> sonar.<domain_name>:9000
+login creds username and password admin -> change once logged in
+
+Logged in -> generate token(my account-> security-> token) -> copy
+
+In jenkins-> system -> sonarqube server -> provide name, server URL and add cred secret text with sonarqube token
