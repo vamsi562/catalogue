@@ -38,6 +38,18 @@ pipeline{
                 }
             }
         }
+        stage('Unit Test'){
+            steps{
+                script{
+                    sh """
+                        echo 'Running unit tests'
+                        npm test
+                    """
+                }
+
+                }
+            }
+        }
         stage('Build Image'){
             steps{
                 script{
