@@ -90,5 +90,5 @@ create webhook in repo and name as below
 
 curl -I \
   -H "Accept: application/vnd.github+json" \
-  -H "Authorization: Bearer <ghp_token>" \
+  -H "Authorization: Bearer <github_token>" \
   https://api.github.com/repos/daws-86s/catalogue/dependabot/alerts
