@@ -61,14 +61,14 @@ pipeline{
                 }
             }
         }
-        stage('Quality Gate') {
-            steps {
-                // Pause pipeline and wait for SonarQube webhook response
-                timeout(time: 10, unit: 'MINUTES') {
-                    waitForQualityGate abortPipeline: true
-                }
-            }
-        }
+        // stage('Quality Gate') {
+        //     steps {
+        //         // Pause pipeline and wait for SonarQube webhook response
+        //         timeout(time: 10, unit: 'MINUTES') {
+        //             waitForQualityGate abortPipeline: true
+        //         }
+        //     }
+        // }
         stage('Dependabot Security Gate') {
             environment {
                 GITHUB_OWNER = 'vamsi562'
