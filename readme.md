@@ -92,3 +92,33 @@ curl -I \
   -H "Accept: application/vnd.github+json" \
   -H "Authorization: Bearer <github_token>" \
   https://api.github.com/repos/daws-86s/catalogue/dependabot/alerts
+
+trivy integration for image scan
+installtion
+```
+    cat << EOF | sudo tee -a /etc/yum.repos.d/trivy.repo
+    [trivy]
+    name=Trivy repository
+    baseurl=https://aquasecurity.github.io/trivy-repo/rpm/releases/\$basearch/
+    gpgcheck=1
+    enabled=1
+    gpgkey=https://aquasecurity.github.io/trivy-repo/rpm/public.key
+    EOF
+    sudo yum -y update
+    sudo yum -y install trivy
+```
+
+command 
+```
+    trivy image \
+    --scanners vuln \
+    --severity HIGH,CRITICAL,MEDIUM \
+    --pkg-types os \
+    --exit-code 1 \
+    --skip-db-update \
+    --no-progress \
+    --format table \
+    055610219795.dkr.ecr.us-east-1.amazonaws.com/roboshop/catalogue:1.0.0
+```
+
+add pipeline task after build image if any vulnerabilities detected it will fail pipeline
