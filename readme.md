@@ -83,7 +83,7 @@ sonar qube to let know jenkins about quality gate - we need create a webhook
         }
     ```
 
-Dependabot integration
+5.Dependabot integration
 create webhook in repo and name as below
 ``` https://jenkins.chikoo.fun:8080//github-webhook/ ```
 
@@ -93,35 +93,36 @@ curl -I \
   -H "Authorization: Bearer <github_token>" \
   https://api.github.com/repos/daws-86s/catalogue/dependabot/alerts
 
-trivy integration for image scan
-installtion
-```
-    cat << EOF | sudo tee -a /etc/yum.repos.d/trivy.repo
-    [trivy]
-    name=Trivy repository
-    baseurl=https://aquasecurity.github.io/trivy-repo/rpm/releases/\$basearch/
-    gpgcheck=1
-    enabled=1
-    gpgkey=https://aquasecurity.github.io/trivy-repo/rpm/public.key
-    EOF
-    sudo yum -y update
-    sudo yum -y install trivy
-```
-or
-```
-    curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sudo sh -s -- -b /usr/local/bin v0.76.0
-```
+6.trivy integration for image scan
+
+installtion steps
+    ```
+        cat << EOF | sudo tee -a /etc/yum.repos.d/trivy.repo
+        [trivy]
+        name=Trivy repository
+        baseurl=https://aquasecurity.github.io/trivy-repo/rpm/releases/\$basearch/
+        gpgcheck=1
+        enabled=1
+        gpgkey=https://aquasecurity.github.io/trivy-repo/rpm/public.key
+        EOF
+        sudo yum -y update
+        sudo yum -y install trivy
+    ```
+(or)
+    ```
+        curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sudo sh -s -- -b /usr/local/bin v0.76.0
+    ```
 
 command 
-```
-    trivy image \
-    --scanners vuln \
-    --severity HIGH,CRITICAL,MEDIUM \
-    --pkg-types os \
-    --exit-code 1 \
-    --no-progress \
-    --format table \
-    055610219795.dkr.ecr.us-east-1.amazonaws.com/roboshop/catalogue:1.0.0
-```
+    ```
+        trivy image \
+        --scanners vuln \
+        --severity HIGH,CRITICAL,MEDIUM \
+        --pkg-types os \
+        --exit-code 1 \
+        --no-progress \
+        --format table \
+        <account_id>.dkr.ecr.us-east-1.amazonaws.com/roboshop/catalogue:1.0.0
+    ```
 
 add pipeline task after build image if any vulnerabilities detected it will fail pipeline
